@@ -738,10 +738,10 @@ with app.app_context():
         admin_user.set_password('admin123')
         db.session.add(admin_user)
         db.session.commit()
-        print("\n  ✅ Default admin account created:")
+        print("\n  [OK] Default admin account created:")
         print("     Username: admin")
         print("     Password: admin123")
-        print("     ⚠️  Change this password after first login!")
+        print("     [WARNING] Change this password after first login!")
 
 # ==================== MAIN ====================
 
@@ -750,7 +750,7 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
 
     print(f"\n{'='*55}")
-    print("  🫁 LungCare AI — Lung Cancer Detection System")
+    print("  LungCare AI - Lung Cancer Detection System")
     print(f"{'='*55}")
     print(f"  Frontend:     http://localhost:{port}")
     print(f"  API Health:   http://localhost:{port}/api/health")
