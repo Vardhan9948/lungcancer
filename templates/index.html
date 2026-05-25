@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LungCare AI — Lung Cancer Detection & Risk Assessment</title>
+    <meta name="description" content="AI-powered lung cancer risk assessment system. Analyze risk factors, get cancer type predictions, and receive treatment recommendations.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-icon">🫁</span>
+                <span class="logo-text">LungCare <span class="logo-ai">AI</span></span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active" data-section="home">Home</a>
+                <a href="#assessment" class="nav-link" data-section="assessment">Assessment</a>
+                <a href="#history" class="nav-link" data-section="history">History</a>
+                <a href="#aichat" class="nav-link" data-section="aichat">🤖 AI Chat</a>
+                <a href="#about" class="nav-link" data-section="about">About</a>
+                <a href="#admin" class="nav-link" id="adminNavLink" data-section="admin" style="display:none">Admin</a>
+                <button id="themeToggle" class="theme-toggle" title="Toggle dark mode">🌙</button>
+                <button id="logoutBtn" class="nav-btn logout-btn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- ============ HOME SECTION ============ -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="hero-badge">⚕️ AI-Powered Medical Assessment</div>
+                    <h1>Intelligent Lung Cancer<br><span class="gradient-text">Risk Detection</span></h1>
+                    <p class="hero-desc">Advanced medical risk assessment system analyzing 30+ health indicators to predict lung cancer type and deliver personalized treatment plans, medicines, and life-saving precautions.</p>
+                    <!-- Pulse Line SVG -->
+                    <svg class="hero-pulse" viewBox="0 0 600 60" style="width:100%;max-width:480px;height:40px;margin-bottom:1.5rem;opacity:.5">
+                        <polyline fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            points="0,30 80,30 100,30 120,10 140,50 160,20 180,40 200,30 280,30 300,30 320,10 340,50 360,20 380,40 400,30 480,30 500,30 520,10 540,50 560,20 580,40 600,30">
+                            <animate attributeName="stroke-dasharray" values="0,2000;2000,0" dur="3s" repeatCount="indefinite"/>
+                            <animate attributeName="stroke-dashoffset" values="2000;0" dur="3s" repeatCount="indefinite"/>
+                        </polyline>
+                    </svg>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">5</span>
+                            <span class="stat-label">Cancer Types</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">12+</span>
+                            <span class="stat-label">Risk Factors</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">30+</span>
+                            <span class="stat-label">Medicines</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-lg" onclick="navigateTo('assessment')">
+                        <span>Start Risk Assessment</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-card glass-card">
+                        <div class="hero-card-icon">🔬</div>
+                        <h3>Risk Analysis</h3>
+                        <p>Multi-factor assessment using medical criteria</p>
+                    </div>
+                    <div class="hero-card glass-card">
+                        <div class="hero-card-icon">💊</div>
+                        <h3>Treatment Info</h3>
+                        <p>Detailed medicines & treatment recommendations</p>
+                    </div>
+                    <div class="hero-card glass-card">
+                        <div class="hero-card-icon">🛡️</div>
+                        <h3>Precautions</h3>
+                        <p>Personalized prevention guidelines</p>
+                    </div>
+                    <div class="hero-card glass-card">
+                        <div class="hero-card-icon">📊</div>
+                        <h3>Detailed Report</h3>
+                        <p>Confidence scores for each cancer type</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ ASSESSMENT SECTION ============ -->
+        <section id="assessment" class="section">
+            <div class="assessment-container">
+                <h2 class="section-title">Lung Cancer Risk Assessment</h2>
+                <p class="section-desc">Choose your assessment method below.</p>
+
+                <!-- Assessment Mode Tabs -->
+                <div class="mode-tabs">
+                    <button class="mode-tab active" onclick="switchMode('form')"><span>📋</span> Risk Factor Form</button>
+                    <button class="mode-tab" onclick="switchMode('image')"><span>🩻</span> CT Scan / Image Upload</button>
+                    <button class="mode-tab" onclick="switchMode('csv')"><span>📊</span> CSV Data Upload</button>
+                </div>
+
+                <!-- ===== MODE 1: RISK FORM ===== -->
+                <div id="mode-form" class="mode-content active">
+
+                    <!-- Progress Bar -->
+                    <div class="progress-container">
+                        <div class="progress-track">
+                            <div class="progress-fill" id="formProgress"></div>
+                        </div>
+                        <div class="progress-steps">
+                            <div class="step active" data-step="1"><span>1</span><label>Demographics</label></div>
+                            <div class="step" data-step="2"><span>2</span><label>Smoking</label></div>
+                            <div class="step" data-step="3"><span>3</span><label>Exposure</label></div>
+                            <div class="step" data-step="4"><span>4</span><label>Medical</label></div>
+                            <div class="step" data-step="5"><span>5</span><label>Symptoms</label></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Demographics -->
+                    <div class="form-step active" id="step-1">
+                        <div class="step-header">
+                            <h3>👤 Demographics</h3>
+                            <p>Basic patient information</p>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="age">Age</label>
+                                <input type="number" id="age" min="1" max="120" placeholder="Enter age" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <select id="gender" required>
+                                <option value="">Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Smoking History -->
+                    <div class="form-step" id="step-2">
+                        <div class="step-header">
+                            <h3>🚬 Smoking History</h3>
+                            <p>Tobacco use information</p>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="smokingStatus">Smoking Status</label>
+                                <select id="smokingStatus" onchange="togglePackYears()">
+                                <option value="never">Never smoked</option>
+                                <option value="former">Former smoker</option>
+                                <option value="current">Current smoker</option>
+                            </select>
+                            </div>
+                            <div class="form-group" id="packYearsGroup" style="display:none">
+                                <label for="packYears">Pack-Years <span class="hint-inline">(packs/day × years)</span></label>
+                                <input type="number" id="packYears" min="0" max="200" placeholder="e.g., 20" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Exposure -->
+                    <div class="form-step" id="step-3">
+                        <div class="step-header">
+                            <h3>⚠️ Environmental Exposure</h3>
+                            <p>Select all exposures that apply</p>
+                        </div>
+                        <div class="checkbox-grid">
+                            <label class="check-card"><input type="checkbox" name="exposure" value="asbestos"><span class="check-icon">🏗️</span><span class="check-label">Asbestos</span></label>
+                            <label class="check-card"><input type="checkbox" name="exposure" value="radon"><span class="check-icon">☢️</span><span class="check-label">Radon Gas</span></label>
+                            <label class="check-card"><input type="checkbox" name="exposure" value="air_pollution"><span class="check-icon">🏭</span><span class="check-label">Air Pollution</span></label>
+                            <label class="check-card"><input type="checkbox" name="exposure" value="occupational_chemicals"><span class="check-icon">🧪</span><span class="check-label">Industrial Chemicals</span></label>
+                            <label class="check-card"><input type="checkbox" name="exposure" value="radiation_exposure"><span class="check-icon">📡</span><span class="check-label">Radiation Exposure</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Medical History -->
+                    <div class="form-step" id="step-4">
+                        <div class="step-header">
+                            <h3>🏥 Medical History</h3>
+                            <p>Select all conditions that apply</p>
+                        </div>
+                        <div class="checkbox-grid">
+                            <label class="check-card"><input type="checkbox" name="medical" value="family_history_lung_cancer"><span class="check-icon">🧬</span><span class="check-label">Family History of Lung Cancer</span></label>
+                            <label class="check-card"><input type="checkbox" name="medical" value="previous_cancer"><span class="check-icon">🔄</span><span class="check-label">Previous Cancer</span></label>
+                            <label class="check-card"><input type="checkbox" name="medical" value="copd"><span class="check-icon">🫁</span><span class="check-label">COPD</span></label>
+                            <label class="check-card"><input type="checkbox" name="medical" value="tuberculosis"><span class="check-icon">🦠</span><span class="check-label">Tuberculosis</span></label>
+                            <label class="check-card"><input type="checkbox" name="medical" value="pulmonary_fibrosis"><span class="check-icon">🩺</span><span class="check-label">Pulmonary Fibrosis</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Symptoms -->
+                    <div class="form-step" id="step-5">
+                        <div class="step-header">
+                            <h3>🩻 Current Symptoms</h3>
+                            <p>Select all symptoms you are currently experiencing</p>
+                        </div>
+                        <div class="checkbox-grid">
+                            <label class="check-card"><input type="checkbox" name="symptom" value="persistent_cough"><span class="check-icon">😷</span><span class="check-label">Persistent Cough</span></label>
+                            <label class="check-card"><input type="checkbox" name="symptom" value="coughing_blood"><span class="check-icon">🩸</span><span class="check-label">Coughing Blood</span></label>
+                            <label class="check-card"><input type="checkbox" name="symptom" value="chest_pain"><span class="check-icon">💔</span><span class="check-label">Chest Pain</span></label>
+                            <label class="check-card"><input type="checkbox" name="symptom" value="shortness_of_breath"><span class="check-icon">🌬️</span><span class="check-label">Shortness of Breath</span></label>
+                            <label class="check-card"><input type="checkbox" name="symptom" value="unexplained_weight_loss"><span class="check-icon">⚖️</span><span class="check-label">Unexplained Weight Loss</span></label>
+                            <label class="check-card"><input type="checkbox" name="symptom" value="fatigue"><span class="check-icon">😩</span><span class="check-label">Fatigue</span></label>
+                            <label class="check-card"><input type="checkbox" name="symptom" value="hoarseness"><span class="check-icon">🗣️</span><span class="check-label">Hoarseness</span></label>
+                            <label class="check-card"><input type="checkbox" name="symptom" value="recurring_infections"><span class="check-icon">🤒</span><span class="check-label">Recurring Infections</span></label>
+                            <label class="check-card"><input type="checkbox" name="symptom" value="wheezing"><span class="check-icon">🎵</span><span class="check-label">Wheezing</span></label>
+                            <label class="check-card"><input type="checkbox" name="symptom" value="difficulty_swallowing"><span class="check-icon">🍽️</span><span class="check-label">Difficulty Swallowing</span></label>
+                            <label class="check-card"><input type="checkbox" name="symptom" value="finger_clubbing"><span class="check-icon">🖐️</span><span class="check-label">Finger Clubbing</span></label>
+                            <label class="check-card"><input type="checkbox" name="symptom" value="bone_pain"><span class="check-icon">🦴</span><span class="check-label">Bone Pain</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="form-nav">
+                        <button class="btn btn-outline" id="prevBtn" onclick="prevStep()" style="display:none">← Previous</button>
+                        <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next Step →</button>
+                        <button class="btn btn-primary btn-lg" id="submitBtn" onclick="submitAssessment()" style="display:none">
+                        🔬 Analyze Risk Factors
+                    </button>
+                    </div>
+
+                </div>
+                <!-- end mode-form -->
+
+                <!-- ===== MODE 2: IMAGE UPLOAD ===== -->
+                <div id="mode-image" class="mode-content">
+                    <div class="upload-section glass-card">
+                        <div class="upload-header">
+                            <h3>🩻 CT Scan / X-Ray Image Analysis</h3>
+                            <p>Upload a lung CT scan or chest X-ray image for AI-powered analysis</p>
+                        </div>
+                        <div class="upload-zone" id="imageDropZone" onclick="document.getElementById('imageInput').click()">
+                            <div class="upload-icon">📁</div>
+                            <p class="upload-text">Drag & drop your image here or <strong>click to browse</strong></p>
+                            <p class="upload-hint">Supports: JPG, PNG, JPEG • Max 10MB</p>
+                            <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="handleImageSelect(this)">
+                        </div>
+                        <div id="imagePreview" class="image-preview hidden">
+                            <img id="previewImg" src="" alt="Preview">
+                            <button class="btn btn-outline" onclick="clearImage()" style="margin-top:1rem">✕ Remove</button>
+                        </div>
+                        <button class="btn btn-primary btn-lg" onclick="submitImageAnalysis()" style="width:100%;margin-top:1.5rem">
+                            🔬 Analyze Image
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ===== MODE 3: CSV UPLOAD ===== -->
+                <div id="mode-csv" class="mode-content">
+                    <div class="upload-section glass-card">
+                        <div class="upload-header">
+                            <h3>📊 CSV Patient Data Analysis</h3>
+                            <p>Upload a CSV file with patient health records for batch analysis</p>
+                        </div>
+                        <div class="upload-zone" id="csvDropZone" onclick="document.getElementById('csvInput').click()">
+                            <div class="upload-icon">📄</div>
+                            <p class="upload-text">Drag & drop your CSV file here or <strong>click to browse</strong></p>
+                            <p class="upload-hint">Supports: CSV files with patient data columns</p>
+                            <input type="file" id="csvInput" accept=".csv" style="display:none" onchange="handleCsvSelect(this)">
+                        </div>
+                        <div id="csvInfo" class="csv-info hidden"></div>
+                        <button class="btn btn-primary btn-lg" onclick="submitCsvAnalysis()" style="width:100%;margin-top:1.5rem">
+                            🔬 Analyze CSV Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Section (shared by all modes) -->
+                <div id="resultsSection" class="results-section hidden">
+                    <div class="results-header">
+                        <h2>Assessment Results</h2>
+                        <div class="risk-badge" id="riskBadge"></div>
+                    </div>
+
+                    <!-- Risk Summary -->
+                    <div class="result-summary glass-card" id="resultSummary"></div>
+
+                    <!-- Score Bars -->
+                    <div class="scores-container glass-card" id="scoresContainer">
+                        <h3>Cancer Type Probability Scores</h3>
+                        <div id="scoreBars"></div>
+                    </div>
+
+                    <!-- Tabs for Details -->
+                    <div class="detail-tabs">
+                        <button class="detail-tab active" data-tab="precautions-tab">🛡️ Precautions</button>
+                        <button class="detail-tab" data-tab="treatments-tab">💉 Treatments</button>
+                        <button class="detail-tab" data-tab="medicines-tab">💊 Medicines</button>
+                    </div>
+
+                    <div class="detail-content" id="precautions-tab"></div>
+                    <div class="detail-content hidden" id="treatments-tab"></div>
+                    <div class="detail-content hidden" id="medicines-tab"></div>
+
+                    <div class="results-actions">
+                        <button class="btn btn-primary" onclick="resetAssessment()">New Assessment</button>
+                        <button class="btn btn-outline" onclick="navigateTo('history')">View History</button>
+                    </div>
+
+                    <div class="disclaimer-box">
+                        <strong>⚕️ Medical Disclaimer:</strong> This assessment is for informational purposes only and does NOT constitute a medical diagnosis. Please consult a qualified healthcare professional for proper evaluation and treatment decisions.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ HISTORY SECTION ============ -->
+        <section id="history" class="section">
+            <h2 class="section-title">Assessment History</h2>
+            <p class="section-desc">Your previous risk assessments and results.</p>
+            <div id="historyContainer" class="history-container">
+                <p class="loading-text">Loading history...</p>
+            </div>
+        </section>
+
+        <!-- ============ AI CHAT SECTION ============ -->
+        <section id="aichat" class="section">
+            <h2 class="section-title">🤖 Medical AI Assistant</h2>
+            <p class="section-desc">Ask me anything about lung cancer — symptoms, treatments, medicines, prevention, and more.</p>
+            <div class="chat-container glass-card">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-msg bot">
+                        <div class="chat-avatar">🤖</div>
+                        <div class="chat-bubble">Hello! I'm your <strong>LungCare AI Assistant</strong>. I specialize in lung cancer information.<br><br>You can ask me about:<br>• Cancer types & stages<br>• Symptoms & risk factors<br>• Treatments & medicines<br>• Prevention &
+                            screening
+                            <br>• Diet & lifestyle<br><br>How can I help you today?</div>
+                    </div>
+                </div>
+                <div class="chat-suggestions" id="chatSuggestions">
+                    <button class="suggestion-btn" onclick="sendSuggestion('What are the symptoms of lung cancer?')">Symptoms</button>
+                    <button class="suggestion-btn" onclick="sendSuggestion('Tell me about treatment options')">Treatments</button>
+                    <button class="suggestion-btn" onclick="sendSuggestion('What medicines are used?')">Medicines</button>
+                    <button class="suggestion-btn" onclick="sendSuggestion('How can I prevent lung cancer?')">Prevention</button>
+                    <button class="suggestion-btn" onclick="sendSuggestion('What is adenocarcinoma?')">Adenocarcinoma</button>
+                    <button class="suggestion-btn" onclick="sendSuggestion('Tell me about immunotherapy')">Immunotherapy</button>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="Ask about lung cancer..." onkeydown="if(event.key==='Enter')sendChat()">
+                    <button class="chat-send-btn" onclick="sendChat()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ ABOUT SECTION ============ -->
+        <section id="about" class="section">
+            <h2 class="section-title">About LungCare AI</h2>
+            <div class="about-grid">
+                <div class="about-card glass-card">
+                    <div class="about-icon">🧠</div>
+                    <h3>How It Works</h3>
+                    <p>Our system analyzes multiple risk factors including demographics, smoking history, environmental exposures, medical history, and current symptoms using a weighted medical scoring algorithm based on epidemiological research.</p>
+                </div>
+                <div class="about-card glass-card">
+                    <div class="about-icon">🎯</div>
+                    <h3>Cancer Types Detected</h3>
+                    <ul>
+                        <li><strong>Adenocarcinoma</strong> — Most common (~40%)</li>
+                        <li><strong>Squamous Cell</strong> — Smoking-related (~25%)</li>
+                        <li><strong>Small Cell (SCLC)</strong> — Aggressive (~15%)</li>
+                        <li><strong>Large Cell</strong> — Less common (~5-10%)</li>
+                        <li><strong>Benign</strong> — Non-cancerous conditions</li>
+                    </ul>
+                </div>
+                <div class="about-card glass-card">
+                    <div class="about-icon">📋</div>
+                    <h3>What You Get</h3>
+                    <ul>
+                        <li>Cancer type probability scores</li>
+                        <li>Overall risk level assessment</li>
+                        <li>Specific precautions to follow</li>
+                        <li>Treatment options by stage</li>
+                        <li>Medicine recommendations</li>
+                    </ul>
+                </div>
+                <div class="about-card glass-card disclaimer-card">
+                    <div class="about-icon">⚕️</div>
+                    <h3>Important Disclaimer</h3>
+                    <p>This system is an <strong>educational tool</strong> for risk awareness. It does NOT replace professional medical diagnosis. Always consult qualified healthcare providers for actual medical evaluation and treatment. If you have concerns
+                        about lung cancer, schedule an appointment with your doctor immediately.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ ADMIN DASHBOARD SECTION ============ -->
+        <section id="admin" class="section">
+            <h2 class="section-title">🛡️ Admin Dashboard</h2>
+            <p class="section-desc">System management & analytics. <span id="adminWelcome"></span></p>
+
+            <!-- Stats Row -->
+            <div id="adminStatsRow" class="admin-stats-row"></div>
+
+            <!-- Admin Tabs -->
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" data-tab="admin-users-tab" onclick="switchAdminTab(this)">👥 Users</button>
+                <button class="admin-tab-btn" data-tab="admin-assessments-tab" onclick="switchAdminTab(this)">📊 Assessments</button>
+                <button class="admin-tab-btn" data-tab="admin-logs-tab" onclick="switchAdminTab(this)">📋 Audit Logs</button>
+            </div>
+
+            <!-- Users Panel -->
+            <div id="admin-users-tab" class="admin-tab-content active">
+                <div class="admin-panel glass-card">
+                    <div class="admin-toolbar">
+                        <input type="text" id="userSearchBox" class="admin-search" placeholder="🔍 Search users by name or email...">
+                        <button onclick="adminExportUsers()" class="btn btn-outline">📥 Export CSV</button>
+                    </div>
+                    <div id="adminUsersContainer">
+                        <p class="loading-text">Loading users...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assessments Panel -->
+            <div id="admin-assessments-tab" class="admin-tab-content">
+                <div class="admin-panel glass-card">
+                    <div class="admin-toolbar">
+                        <input type="text" id="assessSearchBox" class="admin-search" placeholder="🔍 Search assessments by prediction or risk...">
+                        <button onclick="adminExportAssessments()" class="btn btn-outline">📥 Export CSV</button>
+                    </div>
+                    <div id="adminAssessmentsContainer">
+                        <p class="loading-text">Loading assessments...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audit Logs Panel -->
+            <div id="admin-logs-tab" class="admin-tab-content">
+                <div class="admin-panel glass-card">
+                    <h3 style="margin-bottom:1rem;font-size:1.1rem;">📋 Admin Action History</h3>
+                    <div id="adminLogsContainer">
+                        <p class="loading-text">Loading logs...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <p>Analyzing risk factors...</p>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer" class="alert-container"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>🫁 LungCare AI — Lung Cancer Detection & Risk Assessment System</p>
+            <p class="footer-disclaimer">For informational purposes only. Not a substitute for professional medical advice.</p>
+        </div>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
